@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Szczegóły mieszkania{% endblock %}
+
+{% block content %}
+
+    <div>
+      <b>Mieszkanie:</b> {{ object }}<br>
+      <b>Opis:</b> {{ object.info }}
+    </div><br>
+    <b>Zdjęcia:</b>
+    <div class="row">
+
+      {% for image in images %}
+        <div class="col-3">
+          <a class="d-block mb-4 h-100">
+            <img class="img-fluid " src="{{ image.picture.url }}" alt="{{ image }}">
+            <p>{{ image.info }}</p>
+            {% if user.is_superuser %}
+              <button  class="btn-sm btn-dark" style="background-color: darkviolet; float: left"
+                     onclick="location.href='{% url "delete-image" image.id%}'">
+                Usuń
+              </button>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+
+    </div><br>
+    <div>
+      <button class="btn-sm btn-dark" style="background-color: darkblue"
+              onclick="location.href='{% url "flat-list" %}'">
+        Powrót
+      </button>
+      {% if user.is_superuser %}
+        <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+                 onclick="location.href='{% url "add-image" flat.id%}'">
+          Dodaj zdjęcie
+        </button>
+      {% endif %}
+    </div>
+
+{% endblock %}

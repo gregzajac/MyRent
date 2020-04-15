@@ -1,0 +1,17 @@
+
+body header h2 {
+    background-color: aliceblue;
+    color: darkblue;
+    text-align: center;
+    font-weight: bold;
+}
+
+footer {
+    background-color: aliceblue;
+}
+
+footer div span {
+    color: darkblue;
+    font-style: italic;
+}
+

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Umowy/Rozliczenia{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+    <div>
+      <b>Najemca:</b> {{ object_list.0.tenant }}<br>
+      <b>E-mail:</b> {{ object_list.0.tenant.email }}<br>
+      <b>Telefon kontaktowy:</b> {{ object_list.0.tenant.phone }}<br>
+    </div><br>
+
+      <table class="table">
+      <thead style="background-color: aliceblue">
+        <tr>
+          <th scope="col">Kod umowy</th>
+          <th scope="col">Czy aktywna</th>
+          <th scope="col">Data podpisania umowy</th>
+          <th scope="col">Wynajem od</th>
+          <th scope="col">Wynajem do</th>
+          <th scope="col">Miesięczny koszt najmu</th>
+          <th scope="col">Termin opłat</th>
+          <th scope="col">Mieszkanie</th>
+          <th scope="col">Dodatkowe informacje</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for agreement in object_list %}
+          <tr>
+            <td>{{ agreement.code }}</td>
+            <td>{{ agreement.is_active }}</td>
+            <td>{{ agreement.agreement_date }}</td>
+            <td>{{ agreement.date_from}}</td>
+            <td>{{ agreement.date_to}}</td>
+            <td>{{ agreement.mth_payment_value}}</td>
+            <td>{{ agreement.mth_payment_deadline}}</td>
+            <td>{{ agreement.flat}}</td>
+            <td>{{ agreement.info}}</td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkblue"
+                      onclick="location.href='{% url "agreement-detail" agreement.id %}'">
+                Rozliczenia
+              </button>
+            </td>
+
+            {% if user.is_superuser %}
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-agreement" agreement.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-agreement" agreement.id %}'">
+                Usuń
+              </button>
+            </td>
+            {% endif %}
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if user.is_superuser %}
+    <div>
+      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+               onclick="location.href='{% url "add-agreement"%}'">
+        Dodaj umowę
+      </button>
+    </div>
+    {% endif %}
+
+  {% endif %}
+
+{% endblock %}

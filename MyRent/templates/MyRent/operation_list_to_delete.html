@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Rozliczenia{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+
+    <label>Wybierz umowę:
+      <select id="agreement">
+        {% for agreement in agreements %}
+          <option value="{{ agreement.id }}" {% if agreement.is_active %}selected{% endif %}>
+            {{agreement}}
+          </option>
+        {% endfor %}
+      </select>
+    </label><br>
+    <div id="operations">
+    </div>
+    Saldo:
+    <p id="balance"></p>
+    {% for operation in object_list %}
+        {{ operation.agreement }}: {{ operation }}<br>
+    {% endfor %}
+
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <form method="post">
+      {% csrf_token %}
+      <p>Czy na pewno usunąć zdjęcie <b>{{ object }}</b>?</p>
+        <img class="img-fluid " src="{{ object.picture.url }}" alt="{{ image }}"><br>
+        <button class="btn-sm btn-dark" style="background-color: darkviolet" type="submit">
+          Usuń
+        </button>
+    </form>
+  </div>
+{% endblock %}

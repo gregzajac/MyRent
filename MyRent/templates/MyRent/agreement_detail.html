@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Umowa szczegóły{% endblock %}
+
+{% block content %}
+  {% if user.is_authenticated %}
+
+    <div>
+      <b>Umowa:</b> {{ object.code }}, najem od {{ object.date_from }} do {{ object.date_to }}<br>
+      <b>Mieszkanie:</b> {{ object.flat }}<br>
+      <b>Najemca:</b> {{ object.tenant }}
+    </div><br>
+
+    <div class="container-xl table-responsive">
+    <table class="table table-sm">
+      <thead style="background-color: aliceblue">
+        <tr>
+          <th scope="col">Nr</th>
+          <th scope="col">Typ operacji</th>
+          <th scope="col">Data operacji</th>
+          <th scope="col">Wartość</th>
+          <th scope="col">Dodatkowe info</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for operation in operations %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ operation.type }}</td>
+            <td>{{ operation.date }}</td>
+            <td>{{ operation.value }}</td>
+            <td>{{ operation.info }}</td>
+
+            {% if user.is_superuser %}
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-operation" operation.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-operation" operation.id %}'">
+                Usuń
+              </button>
+            </td>
+            {% endif %}
+
+          </tr>
+        {% endfor %}
+          <tr class="font-weight-bold">
+            <td></td>
+            <td >Saldo</td>
+            <td></td>
+            <td class="font-weight-bold">{{ balance }}</td>
+            <td>{% if balance < 0 %}Niedopłata{% elif balance > 0 %}Nadpłata{% endif %}</td>
+          </tr>
+
+      </tbody>
+    </table>
+    </div><br>
+
+
+      <div class="container">
+
+        <button  class="btn-sm btn-dark" style="background-color: darkblue"
+                 onclick="location.href='{% url "agreement-list" %}'">
+          Powrót
+        </button>
+        {% if user.is_superuser %}
+        <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+                 onclick="location.href='{% url "add-obligations" object.id %}'">
+          Generuj naliczenia
+        </button>
+
+        <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+                 onclick="location.href='{% url "add-operation" object.id %}'">
+          Dodaj operację
+        </button>
+        {% endif %}
+      </div>
+
+  {% endif %}
+{% endblock %}

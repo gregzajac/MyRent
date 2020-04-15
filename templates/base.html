@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="h-100">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Autentykacja{% endblock %}</title>
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href='{% static "MyRent/css/main.css" %}'>
+</head>
+
+<body class="d-flex flex-column h-100">
+  <header>
+    <h2 >Wynajem mieszkań</h2>
+
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: darkblue;">
+      <a class="navbar-brand text-light" href="{% url 'flat-list' %}">Mieszkania</a>
+
+        <div class="collapse navbar-collapse" id="navbarText">
+
+        {% if user.is_authenticated %}
+
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link text-light"
+                 href="{% url 'agreement-list' %}">Umowy</a>
+            </li>
+          </ul>
+          {% if user.is_superuser %}
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link text-light"
+                   href="{% url 'tenant-list' %}">Najemcy</a>
+              </li>
+            </ul>
+          {% endif %}
+          <span class="navbar-text text-light">
+            Witaj {% block logged_user %}{{ user }}{% endblock %}!
+          </span>
+          <span class="navbar-nav">
+              <a class="nav-link text-light font-weight-bold"
+                 href="{% url 'user-pwd-change' %}">Zmień hasło</a>
+          </span>
+
+          <span class="navbar-nav">
+              <a class="nav-link text-light font-weight-bold"
+                 href="{% url 'logout' %}">Wyloguj</a>
+          </span>
+
+        {% else %}
+
+          <ul class="navbar-nav mr-auto">
+          </ul>
+          <span class="navbar-nav">
+              <a class="nav-link text-light font-weight-bold"
+                 href="{% url 'login' %}">Zaloguj</a>
+          </span>
+
+        {% endif %}
+
+      </div>
+    </nav><br>
+  </header>
+
+  <main role="main" class="flex-shrink-0">
+
+    <div class="container-fluid">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+  </main>
+
+  <footer class="footer mt-auto py-3">
+    <div>
+      <span> Wersja 0.1, Autor: Grzegorz Zając</span>
+      {% if not user.is_authenticated or user.is_superuser%}
+        <span style="float: right"><a href="/admin/">Admin panel</a></span>
+      {% endif %}
+    </div>
+  </footer>
+
+</body>
+</html>

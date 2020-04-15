@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+  <div class="container">
+    <h4>Wprowadź dane logowania:</h4>
+    <form method="post">
+      {% csrf_token %}
+      <table>{{ form.as_table }}</table>
+      <button class="btn btn-dark" style="background-color: darkblue" type="submit">
+        Zaloguj
+      </button>
+    </form>
+  </div>
+
+{% endblock %}

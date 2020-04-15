@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Najemcy{% endblock %}
+
+{% block content %}
+  {% if user.is_superuser %}
+
+    <div>
+      <p>Lista najemców:</p>
+    </div>
+
+    <div class="table-responsive">
+    <table class="table">
+      <thead style="background-color: aliceblue">
+        <tr>
+          <th scope="col">Nr</th>
+          <th scope="col">Imię</th>
+          <th scope="col">Nazwisko</th>
+          <th scope="col">Telefon</th>
+          <th scope="col">Email</th>
+          <th scope="col">Dodatkowe informacje</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tenant in object_list %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ tenant.first_name }}</td>
+            <td>{{ tenant.last_name }}</td>
+            <td>{{ tenant.phone }}</td>
+            <td>{{ tenant.email }}</td>
+            <td>{{ tenant.info }}</td>
+
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-tenant" tenant.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-tenant" tenant.id %}'">
+                Usuń
+              </button>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+
+
+    <div>
+      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+               onclick="location.href='{% url "add-tenant"%}'">
+        Dodaj najemcę
+      </button>
+    </div>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Mieszkania{% endblock %}
+
+{% block content %}
+    <div>
+      <b>Właściciel:</b> {{ object_list.0.landlord }}<br>
+      <b>E-mail:</b> {{ object_list.0.landlord.email }}<br>
+      <b>Telefon kontaktowy:</b> {{ object_list.0.landlord.phone }}
+    </div><br>
+
+    <div class="table-responsive">
+    <table class="table">
+      <thead style="background-color: aliceblue">
+        <tr>
+          <th scope="col">Nr</th>
+          <th scope="col">Mieszkanie</th>
+          <th scope="col">Opis</th>
+          <th scope="col">Wolne od</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for flat in object_list %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ flat }}</td>
+            <td>{{ flat.info }}</td>
+            <td>{{ flat.available_from}}</td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkblue"
+                      onclick="location.href='{% url "flat-detail" flat.id %}'">
+                Zdjęcia
+              </button>
+            </td>
+            {% if user.is_superuser %}
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "modify-flat" flat.id %}'">
+                Modyfikuj
+              </button>
+            </td>
+            <td>
+              <button class="btn-sm btn-dark" style="background-color: darkviolet"
+                      onclick="location.href='{% url "delete-flat" flat.id %}'">
+                Usuń
+              </button>
+            </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+
+    {% if user.is_superuser %}
+    <div>
+      <button  class="btn-sm btn-dark" style="background-color: darkviolet"
+               onclick="location.href='{% url "add-flat"%}'">
+        Dodaj mieszkanie
+      </button>
+    </div>
+    {% endif %}
+
+{% endblock %}
