@@ -1,5 +1,5 @@
 # MyRent
-Aplikacja umożliwiająca zarządzanie wynajmem mieszkań, realizuje poniższe UseCases. Działająca aplikacja znajduje się [tutaj]('https://gz-myrent-django.herokuapp.com/').
+Aplikacja stworzona w Django, umożliwiająca zarządzanie wynajmem mieszkań, realizuje poniższe UseCases. Działająca aplikacja znajduje się [tutaj](https://gz-myrent-django.herokuapp.com/).
 ### Przykładowe dane właściciela i najemcy:
 ```buildoutcfg
 # właściciel
